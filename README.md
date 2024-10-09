@@ -1,9 +1,9 @@
 # App Center Github Action with outputs
 
-![Sample workflow](https://github.com/kartikarora/AppCenter-Github-Action/actions/workflows/main.yml/badge.svg?branch=master)
-![https://github.com/kartikarora/AppCenter-Github-Action/releases](https://img.shields.io/github/v/release/kartikarora/AppCenter-Github-Action)
+<a href="https://github.com/kartikarora/AppCenter-Github-Action/blob/master/.github/workflows/main.yml">![](https://github.com/kartikarora/AppCenter-Github-Action/actions/workflows/main.yml/badge.svg?branch=master)</a>
+<a href="https://github.com/kartikarora/AppCenter-Github-Action/releases">![](https://img.shields.io/github/v/release/kartikarora/AppCenter-Github-Action)</a>
 
-Forked from [AppCenter-Github-Action](https://github.com/wzieba/AppCenter-Github-Action/).
+Forked from [wzieba/AppCenter-Github-Action](https://github.com/wzieba/AppCenter-Github-Action/).
 
 This action uploads artifacts (.apk or .ipa) to Visual Studio App Center and sets a couple of outputs to be used.
 
