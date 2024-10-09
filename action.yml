@@ -1,5 +1,5 @@
 name: "App Center Upload - with outputs"
-description: "GitHub Action that uploads artefacts for Visual Studio App Center and sets outputs for download, install and app icon direct urls"
+description: "GitHub Action that uploads artefacts for Visual Studio App Center and sets outputs for direct urls"
 author: "Kartik Arora <@kartikarora>"
 inputs:
   appName:
