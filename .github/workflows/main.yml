@@ -1,50 +1,72 @@
-name: Sample workflow for App Center action
+name: Sample workflow for App Center action with outputs
 on: [push, pull_request, workflow_dispatch]
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Get sample .apk for test purposes
-        run: wget --output-document ApiDemos-debug.apk https://github.com/appium/appium/blob/906350fd335f9485376214fdd17c7cdb6c9ff26b/sample-code/apps/ApiDemos-debug.apk?raw=true
+        run: wget --output-document anylytics-demo-debug.apk https://github.com/kartikarora/anylytics/releases/download/0.0.1/anylytics-demo-debug.apk
       - name: Upload artifact with provided release notes
+        id: with-provided-release-notes
         uses: ./
         with:
-          appName: ${{secrets.ANDROID_APP_NAME}}
+          appName: ${{secrets.APP_NAME}}
           token: ${{secrets.API_TOKEN}}
           group: Collaborators
-          file: ApiDemos-debug.apk
+          file: anylytics-demo-debug.apk
           releaseNotes: New bugs
       - name: Upload artifact with empty release notes
+        id: with-empty-release-notes
         uses: ./
         with:
-          appName: ${{secrets.ANDROID_APP_NAME}}
+          appName: ${{secrets.APP_NAME}}
           token: ${{secrets.API_TOKEN}}
           group: Collaborators
-          file: ApiDemos-debug.apk
+          file: anylytics-demo-debug.apk
       - name: Upload artifact with Git generated release notes
+        id: with-generated-release-notes
         uses: ./
         with:
-          appName: ${{secrets.ANDROID_APP_NAME}}
+          appName: ${{secrets.APP_NAME}}
           token: ${{secrets.API_TOKEN}}
           group: Collaborators
-          file: ApiDemos-debug.apk
+          file: anylytics-demo-debug.apk
           gitReleaseNotes: true
       - name: Upload artifact and notify testers
+        id: upload-and-notify
         uses: ./
         with:
-          appName: ${{secrets.ANDROID_APP_NAME}}
+          appName: ${{secrets.APP_NAME}}
           token: ${{secrets.API_TOKEN}}
           group: Collaborators
-          file: ApiDemos-debug.apk
+          file: anylytics-demo-debug.apk
           notifyTesters: true
       - name: Upload artifact with a debug flag
+        id: upload-as-debug-and-notify
         uses: ./
         with:
-          appName: ${{secrets.ANDROID_APP_NAME}}
+          appName: ${{secrets.APP_NAME}}
           token: ${{secrets.API_TOKEN}}
           group: Collaborators
-          file: ApiDemos-debug.apk
+          file: anylytics-demo-debug.apk
           debug: true
+      - name: Print all outputs
+        run: |
+          echo "With provided release notes"
+          echo "Download url: ${{ steps.with-provided-release-notes.outputs.download-url }}"
+          echo "Install url: ${{ steps.with-provided-release-notes.outputs.install-url }}"
+          echo "With empty release notes"
+          echo "Download url: ${{ steps.with-empty-release-notes.outputs.download-url }}"
+          echo "Install url: ${{ steps.with-empty-release-notes.outputs.install-url }}"
+          echo "With generated release notes"
+          echo "Download url: ${{ steps.with-generated-release-notes.outputs.download-url }}"
+          echo "Install url: ${{ steps.with-generated-release-notes.outputs.install-url }}"
+          echo "Upload and notify"
+          echo "Download url: ${{ steps.upload-and-notify.outputs.download-url }}"
+          echo "Install url: ${{ steps.upload-and-notify.outputs.install-url }}"
+          echo "Upload as debug and notify"
+          echo "Download url: ${{ steps.upload-as-debug-and-notify.outputs.download-url }}"
+          echo "Install url: ${{ steps.upload-as-debug-and-notify.outputs.install-url }}"
 

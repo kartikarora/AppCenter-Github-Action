@@ -1,7 +1,7 @@
-# App Center Github Action
+# App Center Github Action with outputs
 
-![Sample workflow for App Center action](https://github.com/wzieba/AppCenter-Github-Action/workflows/Sample%20workflow%20for%20App%20Center%20action/badge.svg?branch=master)
-<a href="https://github.com/wzieba/AppCenter-Github-Action/releases">![](https://img.shields.io/github/v/release/wzieba/AppCenter-Github-Action)</a>
+![Sample workflow for App Center action](https://github.com/kartikarora/AppCenter-Github-Action/workflows/Sample%20workflow%20for%20App%20Center%20action%20with%20outputs/badge.svg?branch=master)
+<a href="https://github.com/kartikarora/AppCenter-Github-Action/releases">![](https://img.shields.io/github/v/release/kartikarora/AppCenter-Github-Action)</a>
 
 This action uploads artifacts (.apk or .ipa) to Visual Studio App Center.
 
@@ -9,7 +9,7 @@ This action uploads artifacts (.apk or .ipa) to Visual Studio App Center.
 
 ### `appName`
 
-**Required** username followed by App name e.g. `wzieba/Sample-App`
+**Required** username followed by App name e.g. `kartikarora/Sample-App`
 
 ### `token`
 
@@ -45,6 +45,14 @@ If set to true, an email notification is sent to the distribution group
 
 If set to true, shows useful debug information from the action execution.
 
+## Outputs
+
+### Download url
+Uploaded artefact's direct download url
+
+### Install url
+Uploaded artefact's direct install url
+
 ## Requirements
 
 This action is Docker-based. It means **it can only execute on runners with a Linux operating system**.
@@ -71,12 +79,17 @@ jobs:
     - name: build release
       run: ./gradlew assembleRelease
     - name: upload artefact to App Center
-      uses: wzieba/AppCenter-Github-Action@v1
+      id: appcenter-upload
+      uses: kartikarora/AppCenter-Github-Action@v1
       with:
-        appName: wzieba/Sample-App
+        appName: kartikarora/Sample-App
         token: ${{secrets.APP_CENTER_TOKEN}}
         group: Testers
         file: app/build/outputs/apk/release/app-release-unsigned.apk
         notifyTesters: true
         debug: false
+    - name: Echo Outputs
+        run: |
+          echo "Download url: ${{steps.appcenter-upload.outputs.download-url}}"
+          echo "Install url: ${{steps.appcenter-upload.outputs.install-url}}"
 ```

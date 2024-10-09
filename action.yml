@@ -1,9 +1,9 @@
-name: "App Center"
-description: "GitHub Action that uploads artefacts for Visual Studio App Center"
-author: "Wojciech Zięba <@wzieba>"
+name: "App Center Upload - with outputs"
+description: "GitHub Action that uploads artefacts for Visual Studio App Center and sets outputs for download, install and app icon direct urls"
+author: "Kartik Arora <@kartikarora>"
 inputs:
   appName:
-    description: "App name followed by username e.g. wzieba/Sample-App"
+    description: "App name followed by username e.g. kartikarora/Sample-App"
     required: true
   token:
     description: "Upload token - you can get one from appcenter.ms/settings"

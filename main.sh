@@ -28,8 +28,14 @@ for group in $INPUT_GROUP; do
     if ${isFirst} ; then
         isFirst=false
         appcenter distribute release --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" --group $group --file "$INPUT_FILE" --release-notes "$RELEASE_NOTES" "${params[@]}"
-        releaseId=$(appcenter distribute releases list --token "$INPUT_TOKEN"  --app "$INPUT_APPNAME" | grep ID | tr -s ' ' | cut -f2 -d ' ' | sort -n -r | head -1)
+        releaseId=$(appcenter distribute releases list --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" | grep ID | tr -s ' ' | cut -f2 -d ' ' | sort -n -r | head -1)
     else
         appcenter distribute releases add-destination --token "$INPUT_TOKEN" -d $group -t group -r $releaseId --app "$INPUT_APPNAME" "${params[@]}"
     fi
+    
+    releaseInfo=$(appcenter distribute releases show --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" -r $releaseId --output json)
+    downloadUrl=$(echo $releaseInfo | jq '.downloadUrl')
+    installUrl=$(echo $releaseInfo | jq '.installUrl')
+    echo "download-url=$downloadUrl" >> $GITHUB_OUTPUT
+    echo "install-url=$installUrl" >> $GITHUB_OUTPUT
 done

@@ -1,14 +1,14 @@
-FROM node:20.5.0-alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 COPY . /app
 
-RUN npm install -g appcenter-cli@2.10.10 \
+RUN npm install -g appcenter-cli@3.0.1 \
     && apk update \
     && apk add git \
-    && apk add bash
+    && apk add bash \
+    && apk add jq
 
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/main.sh
 
-ENTRYPOINT [ "/app/entrypoint.sh" ]
-
+ENTRYPOINT [ "/app/main.sh" ]
