@@ -32,10 +32,16 @@ for group in $INPUT_GROUP; do
     else
         appcenter distribute releases add-destination --token "$INPUT_TOKEN" -d $group -t group -r $releaseId --app "$INPUT_APPNAME" "${params[@]}"
     fi
-    
-    releaseInfo=$(appcenter distribute releases show --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" -r $releaseId --output json)
-    downloadUrl=$(echo $releaseInfo | jq '.downloadUrl')
-    installUrl=$(echo $releaseInfo | jq '.installUrl')
-    echo "download-url=$downloadUrl" >> $GITHUB_OUTPUT
-    echo "install-url=$installUrl" >> $GITHUB_OUTPUT
 done
+
+releaseInfo=$(appcenter distribute releases show --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" -r $releaseId --output json)
+downloadUrl=$(echo $releaseInfo | jq '.downloadUrl')
+installUrl=$(echo $releaseInfo | jq '.installUrl')
+version_name=$(echo $releaseInfo | jq '.shortCode')
+version_code=$(echo $releaseInfo | jq '.version')
+echo "download-url=$downloadUrl" >> $GITHUB_OUTPUT
+echo "install-url=$installUrl" >> $GITHUB_OUTPUT
+
+if [ -n "${INPUT_MAPPINGFILE}" ]; then
+    appcenter crashes upload-mappings --token "$INPUT_TOKEN" --app "$INPUT_APPNAME" --mapping "$INPUT_MAPPINGFILE" --version-name "$version_name" --version-code "$version_code"
+fi

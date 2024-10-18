@@ -33,8 +33,11 @@ inputs:
     description: "If true, shows additional information from the action execution"
     required: false
     default: false
+  mappingFile:
+    description: "Mapping file to upload required for android apps .apk and .aab (.txt)"
+    required: false
 branding:
-  color: "red"
+  color: "black"
   icon: "send"
 runs:
   using: "docker"

@@ -3,7 +3,7 @@ FROM node:lts-alpine
 WORKDIR /app
 COPY . /app
 
-RUN npm install -g appcenter-cli@3.0.2 \
+RUN npm install -g appcenter-cli \
     && apk update \
     && apk add git \
     && apk add bash \
